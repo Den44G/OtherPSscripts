@@ -1,0 +1,17 @@
+db.homeSales.aggregate([
+  {$match: {
+    amount: {$gte:3000000}}
+  }, 
+   {$match: {
+    'address.town': /MA/ }
+  }, 
+   {$match: {
+    date: {$gte: ISODate("2012-04-20T06:37:25.355Z") } }
+  },
+  {$lookup: {
+    from: "postcodes", 
+    localField: "address.postcode",
+    foreignField: "postcode",
+    as: "postcode_docs"}
+  }
+])
